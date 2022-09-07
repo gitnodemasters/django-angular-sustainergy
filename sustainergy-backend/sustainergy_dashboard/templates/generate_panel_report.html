@@ -1,0 +1,270 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Panel Schedule Report</title>
+
+    <link rel="stylesheet"
+          type="text/css"
+          href="https://sustainergy-backend-data.s3.us-west-2.amazonaws.com/styles/generate_panel_report.css"/>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+
+
+</head>
+<body>
+
+<div class="firstPage">
+    <div class="print-container">
+        <div class="logo">
+            <img style="height: 70px; width: auto; margin-top: 0px;"
+                 src="https://sustainergy-backend-data.s3.us-west-2.amazonaws.com/assets/1.png">
+        </div>
+        <div class="main-header" style="top: 100px">
+            <h1 class="av-bold maincolor size-28" style='text-align: center'>Electrical Panel Schedule</h1><br>
+        </div>
+        <div class="home-print" style='align-content: center'>
+            <img style='width:70%; margin-left: 30%; margin-right: 15%; top:15%'
+                 src="https://sustainergy-backend-data.s3.us-west-2.amazonaws.com/assets/panel_schedule.png">
+        </div>
+        <div class="address av-bold grey" style="margin-top: 400px">
+            <h3 class="av-bold maincolor"
+                style='font-size: 20px;'>{{ building_description }}</h3><br>
+            <h4 style='font-size: 10px;'>{{ building_address }}</h4>
+        </div>
+        <div style='height: 100px;'>
+            <img style='position: absolute; left: 75%; height: 100px'
+                 src="https://sustainergy-backend-data.s3.us-west-2.amazonaws.com/assets/optimizedlogo.png">
+        </div>
+    </div>
+</div>
+
+{% for panel in data %}
+    <div class="panel-Schedule">
+        <div class="panel-container">
+            <div class="top-header">
+                <h2 class="av-bold size-32 maincolor">Panel Schedule<span
+                        class="grey size-18">{{ panel.panel_name }}</span></h2>
+            </div>
+            <div class="panel-section">
+                <div class="part1">
+                    <h2 class="av-bold maincolor size-25">{{ panel.panel_name }}</h2>
+                    <div class="img">
+                        <img
+                                src="https://sustainergy-backend-data.s3.us-west-2.amazonaws.com/assets/panel_schedule.png"/>
+                    </div>
+                </div>
+                <div class="part2 av-bold d-grey">
+                    <p class="size-28">{{ panel.circuits_number }}</p>
+                    <p class="size-16">Circuits </p>
+                    <p class="size-30">{{ panel.panel_voltage }} <span class="size-20"></span></p>
+                    <p class="size-22">Voltage</p>
+                </div>
+                <div class="part3">
+                    <div class="svg-section">
+                        <h3 class="av-bold maincolor size-20">Circuit Breakdown</h3>
+                        <div class="chart-svg" style="position: relative;">
+                            <embed type="image/svg+xml" src={{ panel.panel_chart|safe }}>
+                        </div>
+                    </div>
+                    <div class="list-data size-6">
+                        <ul class="av-bold d-grey">
+                            <li class="bluee">
+                                <p><span style="display: inline-block">
+                      {% if  panel.categories|get_value_from_dict:panel.sorted_categories.0 > 0 %}
+                          {{ panel.categories|get_value_from_dict:panel.sorted_categories.0 }}
+                      {% else %}
+                      {% endif %}
+                  </span>
+                                    {% if panel.categories|get_value_from_dict:panel.sorted_categories.0 > 0 %}
+                                        <span class="signpercent" style="position: relative;">%</span></p>
+                                        <span class="shape {{ panel.sorted_categories.0 }}"
+                                              style="display: inline-block;"></span>
+                                        <span class="label">{{ panel.sorted_categories.0 }}</span>
+                                    {% else %}
+                                    {% endif %}
+                            </li>
+
+                            <li class="sky">
+                                <p><span style="display: inline-block">
+                      {% if  panel.categories|get_value_from_dict:panel.sorted_categories.1 > 0 %}
+                          {{ panel.categories|get_value_from_dict:panel.sorted_categories.1 }}
+                      {% else %}
+                      {% endif %}
+                  </span>
+                                    {% if panel.categories|get_value_from_dict:panel.sorted_categories.1 > 0 %}
+                                        <span class="signpercent">%</span></p>
+                                        <span class="shape {{ panel.sorted_categories.1 }}"></span>
+                                        <span class="label">{{ panel.sorted_categories.1 }}</span>
+                                    {% else %}
+                                    {% endif %}
+                            </li>
+
+                            <li class="orange">
+                                <p><span style="display: inline-block">
+                      {% if  panel.categories|get_value_from_dict:panel.sorted_categories.2 > 0 %}
+                          {{ panel.categories|get_value_from_dict:panel.sorted_categories.2 }}
+                      {% else %}
+                      {% endif %}
+                  </span>
+                                    {% if panel.categories|get_value_from_dict:panel.sorted_categories.2 > 0 %}
+                                        <span class="signpercent">%</span></p>
+                                        <span class="shape {{ panel.sorted_categories.2 }}"></span>
+                                        <span class="label">{{ panel.sorted_categories.2 }}</span>
+                                    {% else %}
+                                    {% endif %}
+                            </li>
+
+                            <li class="orange-2">
+                                <p><span style="display: inline-block">
+                      {% if  panel.categories|get_value_from_dict:panel.sorted_categories.3 > 0 %}
+                          {{ panel.categories|get_value_from_dict:panel.sorted_categories.3 }}
+                      {% else %}
+                      {% endif %}
+                  </span>
+                                    {% if panel.categories|get_value_from_dict:panel.sorted_categories.3 > 0 %}
+                                        <span class="signpercent">%</span></p>
+                                        <span class="shape {{ panel.sorted_categories.3 }}"></span>
+                                        <span class="label">{{ panel.sorted_categories.3 }}</span>
+                                    {% else %}
+                                    {% endif %}
+                            </li>
+
+                            <li class="yellow">
+                                <p><span style="display: inline-block">
+                      {% if  panel.categories|get_value_from_dict:panel.sorted_categories.4 > 0 %}
+                          {{ panel.categories|get_value_from_dict:panel.sorted_categories.4 }}
+                      {% else %}
+                      {% endif %}
+                  </span>
+                                    {% if panel.categories|get_value_from_dict:panel.sorted_categories.4 > 0 %}
+                                        <span class="signpercent">%</span></p>
+                                        <span class="shape {{ panel.sorted_categories.4 }}"></span>
+                                        <span class="label">{{ panel.sorted_categories.4 }}</span>
+                                    {% else %}
+                                    {% endif %}
+                            </li>
+
+                            <li class="yellow">
+                                <p><span style="display: inline-block">
+                      {% if  panel.categories|get_value_from_dict:panel.sorted_categories.5 > 0 %}
+                          {{ panel.categories|get_value_from_dict:panel.sorted_categories.5 }}
+                      {% else %}
+                      {% endif %}
+                  </span>
+                                    {% if panel.categories|get_value_from_dict:panel.sorted_categories.5 > 0 %}
+                                        <span class="signpercent">%</span></p>
+                                        <span class="shape {{ panel.sorted_categories.5 }}"></span>
+                                        <span class="label">{{ panel.sorted_categories.5 }}</span>
+                                    {% else %}
+                                    {% endif %}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="list-section" style="line-height: 0.4em">
+                <ul class="first-list av-bold" style="font-size: 0.8em">
+                    {% for circuit in panel.circuits %}
+                        {% if circuit.circuit_number < panel.circuits_per_column %}
+                            <li>
+                <span class="number" style="font-size: 0.6em !important;">
+                {{ circuit.circuit_number|add:1 }}<span style="width: 1px; height: 1px"></span>
+                </span>
+                                <span class="dotcircle {{ circuit.circuit_category }}"></span>
+                                <span class="d-grey"
+                                      style="{% if circuit.circuit_name == '-' %}position: relative; bottom: 2px;{% endif %}">
+                    {{ circuit.circuit_name }}</span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                <ul class="second-list av-bold" style="font-size: 0.8em">
+                    {% for circuit in panel.circuits %}
+                        {% if circuit.circuit_number >= panel.circuits_per_column and circuit.circuit_number <= panel.circuits_per_column2 %}
+                            <li><span class="number"
+                                      style="font-size: 0.6em !important;">{{ circuit.circuit_number|add:1 }}<span style="width: 1px; height: 1px"></span></span>
+                                <span class="dotcircle {{ circuit.circuit_category }}"></span>
+                                <span class="d-grey"
+                                      style="{% if circuit.circuit_name == '-' %}position: relative; bottom: 2px;{% endif %}">{{ circuit.circuit_name }}</span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                <ul class="third-list av-bold" style="font-size: 0.8em">
+                    {% for circuit in panel.circuits %}
+                        {% if circuit.circuit_number > panel.circuits_per_column2 %}
+                            <li><span class="number"
+                                      style="font-size: 0.6em !important;">{{ circuit.circuit_number|add:1 }}<span style="width: 1px; height: 1px"></span></span><span
+                                    class="dotcircle {{ circuit.circuit_category }}"></span>
+                                <span class="d-grey"
+                                      style="{% if circuit.circuit_name == '-' %}position: relative; bottom: 2px;{% endif %}">{{ circuit.circuit_name }}</span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+{% endfor %}
+</body>
+<footer style='position: fixed; bottom: 0; width: 100%;'>
+    <div class="bottom-line"><span> </span><span> </span><span> </span><span> </span></div>
+    <div class="footer-bottom d-flex">
+        <p class="av-bold maincolor">Panel Schedule</p>
+        <p class="av-bold maincolor"></p>
+        <p class="av-bold maincolor">Powered by Opti-mized</p>
+    </div>
+</footer>
+
+<script type="text/javascript">
+    let panels = "{{ data | jsonify}}";
+    panels = JSON.parse(panels.replace(/&quot;/g, '"'));
+    for (let i = 0; i < panels.length; i++) {
+        console.log(panels[i].panel_id)
+        console.log(panels[i].panel_name)
+        const ctx = document.getElementById(panels[i].panel_id).getContext("2d");
+        const panelCategories = Object.keys(panels[i].categories).sort()
+        console.log(``)
+        const myChart = new Chart(ctx, {
+            type: "doughnut",
+            data: {
+                datasets: [
+                    {
+                        data: [panels[i].categories[panelCategories[0]] || 0,
+                            panels[i].categories[panelCategories[1]] || 0,
+                            panels[i].categories[panelCategories[2]] || 0,
+                            panels[i].categories[panelCategories[3]] || 0,
+                            panels[i].categories[panelCategories[4]] || 0,
+                            panels[i].categories[panelCategories[5]] || 0,
+                            panels[i].categories[panelCategories[6]] || 0],
+                        backgroundColor: [
+                            "#3BCDEE",
+                            "#3649A8",
+                            "#FEC754",
+                            "#EE5937",
+                            "#7F7F7C",
+                            "#EE8F37",
+                            "#EC5A38",
+
+                        ],
+                        borderWidth: 0,
+                    },
+                ],
+            },
+            options: {
+                cutout: 45,
+
+            },
+        });
+    }
+
+</script>
+</html>
+
+
